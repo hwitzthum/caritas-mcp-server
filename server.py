@@ -581,5 +581,22 @@ def health_check() -> dict:
 
 
 if __name__ == "__main__":
-    # Run the server
-    mcp.run()
+    # For remote hosting (Render, etc.), use HTTP transport
+    # For local stdio development, you can use: mcp.run()
+    import uvicorn
+
+    # Get port from environment (Render sets this automatically)
+    port = int(os.getenv('PORT', 8000))
+
+    logger.info(f"Starting MCP HTTP server on port {port}")
+
+    # Get the FastMCP HTTP app
+    app = mcp.streamable_http_app()
+
+    # Run as HTTP server for remote access
+    uvicorn.run(
+        app,
+        host="0.0.0.0",  # Listen on all interfaces (required for Render)
+        port=port,
+        log_level="info"
+    )

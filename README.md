@@ -82,6 +82,7 @@ python server.py
      - **Runtime**: Python 3
      - **Build Command**: `pip install -r requirements.txt`
      - **Start Command**: `python server.py`
+     - **Region**: Choose closest to your users
 
 3. **Set Environment Variables in Render**
 

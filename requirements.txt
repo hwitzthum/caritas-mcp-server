@@ -3,3 +3,4 @@ python-jose[cryptography]
 requests
 python-dotenv
 openai
+uvicorn
