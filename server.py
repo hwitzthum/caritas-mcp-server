@@ -391,19 +391,20 @@ def health_check() -> dict:
 
 
 if __name__ == "__main__":
-    # For Render.com deployment - use HTTP transport with uvicorn
+    # For Render.com deployment - use SSE transport for Claude Desktop compatibility
+    # Note: SSE is needed because mcp-remote (used by Claude Desktop) doesn't support Streamable HTTP yet
     port = int(os.getenv('PORT', '8000'))
 
     logger.info(f"Starting Caritas MCP Server on 0.0.0.0:{port}")
     logger.info(f"Authentication: FastMCP JWT Verification (Auth0)")
-    logger.info(f"Transport: HTTP")
+    logger.info(f"Transport: SSE (for Claude Desktop compatibility)")
 
-    # Run with HTTP transport
+    # Run with SSE transport - compatible with mcp-remote
     # Authentication is automatically configured via FASTMCP_SERVER_AUTH_* environment variables
     import uvicorn
 
-    # Create the ASGI app
-    app = mcp.http_app()
+    # Create the ASGI app with SSE transport at /sse endpoint
+    app = mcp.http_app(transport="sse", path="/sse")
 
     # Run with uvicorn
     uvicorn.run(app, host="0.0.0.0", port=port)
