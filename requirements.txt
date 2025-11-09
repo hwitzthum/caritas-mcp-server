@@ -1,6 +1,12 @@
+# FastMCP - Model Context Protocol server framework
 fastmcp
-python-jose[cryptography]
-requests
-python-dotenv
+
+# OpenAI SDK - For ChatGPT integration
 openai
-uvicorn
+
+# ASGI server - For running the HTTP server
+uvicorn[standard]
+
+# Optional: For local development with .env files
+# (Render uses dashboard env vars in production)
+python-dotenv
