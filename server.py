@@ -393,17 +393,17 @@ def health_check() -> dict:
 if __name__ == "__main__":
     # For Render.com deployment - use streamable HTTP transport
     port = int(os.getenv('PORT', '8000'))
-    host = os.getenv('HOST', '0.0.0.0')
 
-    logger.info(f"Starting Caritas MCP Server on {host}:{port}")
+    # FastMCP binds to 0.0.0.0 by default, which is correct for Render
+    logger.info(f"Starting Caritas MCP Server on 0.0.0.0:{port}")
     logger.info(f"Authentication: FastMCP JWT Verification (Auth0)")
     logger.info(f"Transport: Streamable HTTP")
 
     # Run with streamable HTTP transport
     # Authentication is automatically configured via FASTMCP_SERVER_AUTH_* environment variables
+    # Note: FastMCP binds to 0.0.0.0 by default (not configurable via run() in current version)
     mcp.run(
         transport="http",
-        host=host,
         port=port,
         path="/mcp"
     )
