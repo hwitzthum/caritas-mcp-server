@@ -6,14 +6,9 @@ This server provides secure access to OpenAI's chat models for your team
 import os
 import logging
 from typing import Optional, List, Dict
-from dotenv import load_dotenv
-
-# Load environment variables FIRST (before importing auth module)
-load_dotenv()
-
 from mcp.server.fastmcp import FastMCP
 from openai import OpenAI
-from auth import require_auth
+from auth import require_auth  # Note: auth module handles loading .env internally
 
 # Configure logging
 logging.basicConfig(

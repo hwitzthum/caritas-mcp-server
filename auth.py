@@ -11,6 +11,11 @@ from jose.exceptions import JWTError, JWKError
 from functools import wraps
 from typing import Optional
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
+
+# Load environment variables from .env file (for local dev only)
+# On Render, env vars are set in the dashboard, so this is a no-op
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
