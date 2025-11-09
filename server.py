@@ -6,7 +6,7 @@ Simplified production-ready server with FastMCP built-in Auth0 JWT verification
 import os
 import logging
 from typing import Optional, List, Dict
-from mcp.server.fastmcp import FastMCP
+from fastmcp import FastMCP
 from openai import OpenAI
 
 # Configure logging
@@ -391,19 +391,19 @@ def health_check() -> dict:
 
 
 if __name__ == "__main__":
-    # For Render.com deployment - use streamable HTTP transport
-    # FastMCP reads FASTMCP_HOST and FASTMCP_PORT from environment
+    # For Render.com deployment - use HTTP transport with uvicorn
     port = int(os.getenv('PORT', '8000'))
-
-    # Set environment variables for FastMCP
-    os.environ.setdefault('FASTMCP_HOST', '0.0.0.0')
-    os.environ.setdefault('FASTMCP_PORT', str(port))
 
     logger.info(f"Starting Caritas MCP Server on 0.0.0.0:{port}")
     logger.info(f"Authentication: FastMCP JWT Verification (Auth0)")
-    logger.info(f"Transport: Streamable HTTP")
+    logger.info(f"Transport: HTTP")
 
-    # Run with streamable HTTP transport
+    # Run with HTTP transport
     # Authentication is automatically configured via FASTMCP_SERVER_AUTH_* environment variables
-    # Host and port are configured via FASTMCP_HOST and FASTMCP_PORT environment variables
-    mcp.run(transport="http")
+    import uvicorn
+
+    # Create the ASGI app
+    app = mcp.http_app()
+
+    # Run with uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=port)
