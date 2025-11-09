@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: caritas-mcp-server
+    runtime: python
+    region: frankfurt  # Closest to Switzerland
+    plan: free  # or 'starter' for $7/month with better performance
+    buildCommand: pip install -r requirements.txt
+    startCommand: python server.py
+    envVars:
+      # Auth0 Configuration
+      - key: AUTH0_DOMAIN
+        sync: false  # We'll set this manually for security
+      - key: AUTH0_API_IDENTIFIER
+        sync: false
+      - key: AUTH0_ALGORITHMS
+        value: RS256
+
+      # OpenAI Configuration
+      - key: OPENAI_API_KEY
+        sync: false  # NEVER commit this - set manually in Render dashboard
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini  # Default model, can be changed in dashboard
+      - key: OPENAI_MAX_TOKENS
+        value: 4000
